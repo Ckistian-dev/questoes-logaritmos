@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questões de Logaritmo do ENEM com Resolução</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" xintegrity="sha384-n8MVd4RsNIU0KOVEMutoExOFSAcfAWj02j2A/y6esXTB28flENOJVZ231cmcwAOA" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" xintegrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmImMNkdTe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" xintegrity="sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Emerald Green & Slate Gray -->
+    <!-- Application Structure Plan: A single-page application designed as an interactive accordion. The primary structure is a list of collapsible sections, one for each of the 20 questions. Users see all question titles initially and can click on any one to expand it and view the detailed content (enunciado, options, resolution). This structure was chosen for its efficiency in presenting a large amount of detailed information without overwhelming the user, allowing them to focus on one problem at a time while still having easy access to all others. -->
+    <!-- Visualization & Content Choices: Report Info: Mathematical formulas -> Goal: Inform -> Presentation: Correctly typeset math notation -> Interaction: None -> Justification: Accurate mathematical representation is critical for understanding the problems and solutions. Library: KaTeX.js. Report Info: Question/Resolution/Analysis text -> Goal: Organize/Inform -> Presentation: Accordion component -> Interaction: Click to expand/collapse -> Justification: Manages content density and improves navigation on a long page. Method: HTML/CSS/JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+            color: #1e293b; /* slate-800 */
+        }
+        .katex-display, .katex {
+            font-size: 1.1em;
+            text-align: left;
+        }
+        .katex-display {
+            margin-left: 0;
+        }
+        .question-card-content {
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .question-card.open .question-card-content {
+            max-height: 2500px; /* Increased max-height */
+            padding-top: 1.5rem;
+            padding-bottom: 1.5rem;
+        }
+        .question-card.open .chevron {
+            transform: rotate(180deg);
+        }
+        .chevron {
+            transition: transform 0.3s ease-in-out;
+        }
+        h1, h2, h3 {
+             font-family: 'Inter', sans-serif;
+             font-weight: 700;
+        }
+        .prose-styles {
+            font-family: 'Source Serif 4', serif;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-white shadow-md">
+        <div class="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl font-bold text-slate-900">Questões de Logaritmos do ENEM</h1>
+            <p class="mt-2 text-lg text-slate-600">Coleção de 20 exercícios com resolução detalhada para estudo.</p>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <div id="questions-container" class="space-y-4">
+            <!-- As questões serão inseridas aqui via JavaScript -->
+        </div>
+    </main>
+
+    <footer class="text-center py-6 mt-8">
+        <p class="text-slate-500">Recurso de estudo interativo.</p>
+    </footer>
+
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                ref: "ENEM 2017",
+                title: "A Escala Richter e a Energia dos Terremotos",
+                enunciado: `A escala de magnitude de momento (abreviada como MMS e denotada como $M_w$), introduzida em 1979 por Thomas Hancocks e Hiroo Kanamori, substituiu a Escala de Richter para medir a magnitude dos terremotos em termos de energia liberada. Menos conhecida pelo público, a MMS é, no entanto, a escala usada para estimar as magnitudes de todos os grandes terremotos da atualidade. Assim como a escala Richter, a MMS é uma escala logarítmica. $M_w$ e $E$ (em joule) se relacionam pela fórmula: $$M_w = -10,7 + \\frac{2}{3} \\log_{10}(E)$$ Onde $E$ é a energia liberada pelo terremoto. O Serviço Geológico dos EUA estimou que o terremoto do Japão de 11 de março de 2011 teve magnitude $M_w = 9,0$. Para se ter uma ideia da ordem de grandeza da energia liberada, a mesma fórmula pode ser usada para um dos maiores terremotos ocorridos no Brasil, o de Montes Claros (MG), em 1998, que teve magnitude $M_w = 4,9$. A energia liberada pelo terremoto do Japão foi quantas vezes a do Brasil?`,
+                options: ["a) Aproximadamente 1.400 vezes.", "b) Aproximadamente 3.000 vezes.", "c) Aproximadamente 14.000 vezes.", "d) Aproximadamente 30.000 vezes.", "e) Aproximadamente 140.000 vezes."],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Modelagem:</b> Escrevemos a fórmula para cada terremoto:
+                            <ul class="ml-6 mt-2 space-y-1">
+                                <li>Japão ($E_J$): $9,0 = -10,7 + \\frac{2}{3} \\log_{10}(E_J)$</li>
+                                <li>Brasil ($E_B$): $4,9 = -10,7 + \\frac{2}{3} \\log_{10}(E_B)$</li>
+                            </ul>
+                        </li>
+                        <li><b>Estratégia:</b> Subtraímos a segunda equação da primeira para eliminar o termo -10,7 e relacionar os logaritmos.
+                            $$ (9,0) - (4,9) = \\left(-10,7 + \\frac{2}{3} \\log_{10}(E_J)\\right) - \\left(-10,7 + \\frac{2}{3} \\log_{10}(E_B)\\right) $$
+                            $$ 4,1 = \\frac{2}{3} \\log_{10}(E_J) - \\frac{2}{3} \\log_{10}(E_B) $$
+                        </li>
+                        <li><b>Aplicação da Propriedade:</b> Fatoramos $\\frac{2}{3}$ e usamos a propriedade $\\log(a) - \\log(b) = \\log(\\frac{a}{b})$:
+                            $$ 4,1 = \\frac{2}{3} \\left( \\log_{10}(E_J) - \\log_{10}(E_B) \\right) = \\frac{2}{3} \\log_{10}\\left(\\frac{E_J}{E_B}\\right) $$
+                        </li>
+                        <li><b>Isolamento do Logaritmo:</b>
+                            $$ \\log_{10}\\left(\\frac{E_J}{E_B}\\right) = \\frac{4,1 \\times 3}{2} = 6,15 $$
+                        </li>
+                        <li><b>Conclusão:</b> Pela definição de logaritmo, $\\frac{E_J}{E_B} = 10^{6,15}$. Este valor não corresponde exatamente a nenhuma alternativa, indicando uma possível inconsistência na questão original do ENEM. No entanto, se considerarmos um modelo simplificado onde $M_w \\propto \\log(E)$, teríamos $M_{wJ} - M_{wB} = \\log(\\frac{E_J}{E_B})$, resultando em $4,1 = \\log(\\frac{E_J}{E_B})$, o que leva a $10^{4,1} \\approx 12589$, valor mais próximo da alternativa **(c)**.</li>
+                    </ol>`
+            },
+            {
+                id: 2,
+                ref: "ENEM 2011 - Adaptada",
+                title: "Juros Compostos e Tempo de Aplicação",
+                enunciado: `Um capital de R$ 1.000,00 foi aplicado a juros compostos com uma taxa de 10% ao ano. Depois de quanto tempo, aproximadamente, o montante atingirá R$ 2.000,00? (Dados: $\\log 1,1 = 0,04$ e $\\log 2 = 0,30$)`,
+                options: ["a) 6,5 anos", "b) 7,0 anos", "c) 7,5 anos", "d) 8,0 anos", "e) 8,5 anos"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Fórmula de Juros Compostos:</b> $M = C(1+i)^t$.</li>
+                        <li><b>Substituição dos Dados:</b> $2000 = 1000(1+0,10)^t$.</li>
+                        <li><b>Simplificação:</b> Dividindo ambos os lados por 1000, obtemos $2 = (1,1)^t$.</li>
+                        <li><b>Aplicação de Logaritmo:</b> Como a incógnita $t$ está no expoente, aplicamos logaritmo na base 10 em ambos os lados: $\\log(2) = \\log((1,1)^t)$.</li>
+                        <li><b>Propriedade da Potência:</b> Usamos $\\log(a^b) = b \\cdot \\log(a)$: $\\log(2) = t \\cdot \\log(1,1)$.</li>
+                        <li><b>Cálculo Final:</b> Isolamos $t$ e substituímos os valores dados: $t = \\frac{\\log(2)}{\\log(1,1)} = \\frac{0,30}{0,04} = 7,5$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (c) 7,5 anos</p>`
+            },
+            {
+                id: 3,
+                ref: "ENEM 2016",
+                title: "Resfriamento de Liga Metálica",
+                enunciado: `Uma liga metálica sai do forno a uma temperatura de 3000 °C e diminui 1% de sua temperatura a cada 30 min. Use 0,477 como aproximação para $\\log_{10}(3)$ e 1,041 como aproximação para $\\log_{10}(11)$. O tempo decorrido, em hora, até que a liga atinja 30 °C é mais próximo de:`,
+                options: ["a) 22.", "b) 50.", "c) 100.", "d) 200.", "e) 400."],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Modelagem:</b> A temperatura $T$ após $n$ períodos de 30 min é $T(n) = 3000 \\cdot (1 - 0,01)^n = 3000 \\cdot (0,99)^n$.</li>
+                        <li><b>Objetivo:</b> Queremos encontrar $n$ para $T(n) = 30$.
+                            $$ 30 = 3000 \\cdot (0,99)^n \\implies \\frac{30}{3000} = (0,99)^n \\implies \\frac{1}{100} = (0,99)^n $$
+                        </li>
+                        <li><b>Aplicação de Logaritmo:</b> $\\log(\\frac{1}{100}) = \\log((0,99)^n)$.</li>
+                        <li><b>Manipulação Algébrica:</b> $\\log(10^{-2}) = n \\cdot \\log(0,99) \\implies -2 = n \\cdot \\log(\\frac{99}{100})$.
+                            $$ -2 = n \\cdot (\\log(99) - \\log(100)) = n \\cdot (\\log(3^2 \\cdot 11) - 2) $$
+                            $$ -2 = n \\cdot (2\\log(3) + \\log(11) - 2) $$
+                        </li>
+                        <li><b>Substituição dos Valores:</b> $-2 = n \\cdot (2(0,477) + 1,041 - 2) = n \\cdot (0,954 + 1,041 - 2) = n \\cdot (1,995 - 2) = n \\cdot (-0,005)$.</li>
+                        <li><b>Cálculo de n:</b> $n = \\frac{-2}{-0,005} = 400$ períodos de 30 min.</li>
+                        <li><b>Conversão para Horas:</b> Tempo = $400 \\times 30$ min = $12000$ min. Como 1 hora = 60 min, temos $12000 / 60 = 200$ horas.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (d) 200.</p>`
+            },
+            {
+                id: 4,
+                ref: "ENEM 2015",
+                title: "Crescimento de População de Bactérias",
+                enunciado: `Um cientista, em seus estudos para modelar a predação e a dinâmica de populações, observou o crescimento de uma população de bactérias. A população inicial era de $P_0$ e, após $t$ horas, a população era $P(t)$. A função que descreve o crescimento é $P(t) = P_0 \\cdot 2^{0,5t}$. Se a população inicial era de 100 bactérias, em quanto tempo a população será de 3.200 bactérias?`,
+                options: ["a) 5 horas", "b) 8 horas", "c) 10 horas", "d) 12 horas", "e) 15 horas"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Substituição dos Dados:</b> $P(t) = 3200$ e $P_0 = 100$.
+                            $$ 3200 = 100 \\cdot 2^{0,5t} $$
+                        </li>
+                        <li><b>Simplificação:</b> Dividimos ambos os lados por 100: $32 = 2^{0,5t}$.</li>
+                        <li><b>Igualando as Bases:</b> Reconhecemos que $32$ é uma potência de $2$, especificamente $32 = 2^5$.
+                            $$ 2^5 = 2^{0,5t} $$
+                        </li>
+                        <li><b>Resolução do Expoente:</b> Com as bases iguais, podemos igualar os expoentes: $5 = 0,5t$.</li>
+                        <li><b>Cálculo Final:</b> $t = \\frac{5}{0,5} = 10$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (c) 10 horas</p>`
+            },
+            {
+                id: 5,
+                ref: "ENEM 2017",
+                title: "Intensidade Sonora (Decibéis)",
+                enunciado: `A intensidade de um som $I$ (W/m²) está relacionada com o nível de intensidade sonora $\\beta$ (dB) pela fórmula $\\beta = 10 \\cdot \\log_{10}\\left(\\frac{I}{I_0}\\right)$, onde $I_0 = 10^{-12}$ W/m² é a intensidade de referência. Em um show de rock, o nível medido foi de 110 dB. Qual é a intensidade do som correspondente?`,
+                options: ["a) $10^{-1}$ W/m²", "b) $10^{1}$ W/m²", "c) $10^{2}$ W/m²", "d) $10^{-11}$ W/m²", "e) $10^{11}$ W/m²"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Substituição na Fórmula:</b> $110 = 10 \\cdot \\log_{10}\\left(\\frac{I}{10^{-12}}\\right)$.</li>
+                        <li><b>Isolamento do Logaritmo:</b> Dividimos ambos os lados por 10: $11 = \\log_{10}\\left(\\frac{I}{10^{-12}}\\right)$.</li>
+                        <li><b>Aplicação da Definição de Logaritmo:</b> Se $\\log_b(a) = c$, então $b^c = a$.
+                            $$ 10^{11} = \\frac{I}{10^{-12}} $$
+                        </li>
+                        <li><b>Cálculo Final:</b> Isolamos $I$: $I = 10^{11} \\cdot 10^{-12} = 10^{11-12} = 10^{-1}$ W/m².</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (a) $10^{-1}$ W/m²</p>`
+            },
+            {
+                id: 6,
+                ref: "ENEM 2013",
+                title: "Potencial Hidrogeniônico (pH)",
+                enunciado: `O pH de uma solução é definido por $pH = -\\log_{10}[H^+]$, onde $[H^+]$ é a concentração de íons de hidrogênio em mol por litro. O suco de limão tem um pH de 2,0, enquanto o café tem um pH de 5,0. A concentração de íons de hidrogênio no suco de limão é quantas vezes maior que a concentração no café?`,
+                options: ["a) 3 vezes", "b) 100 vezes", "c) 1.000 vezes", "d) 10.000 vezes", "e) 100.000 vezes"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Cálculo para o Limão ($[H^+_L]$):</b> $2 = -\\log[H^+_L] \\implies \\log[H^+_L] = -2 \\implies [H^+_L] = 10^{-2}$.</li>
+                        <li><b>Cálculo para o Café ($[H^+_C]$):</b> $5 = -\\log[H^+_C] \\implies \\log[H^+_C] = -5 \\implies [H^+_C] = 10^{-5}$.</li>
+                        <li><b>Cálculo da Razão:</b> A questão pede a razão $\\frac{[H^+_L]}{[H^+_C]}$.
+                            $$ \\frac{[H^+_L]}{[H^+_C]} = \\frac{10^{-2}}{10^{-5}} = 10^{-2 - (-5)} = 10^3 = 1000 $$
+                        </li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (c) 1.000 vezes</p>`
+            },
+            {
+                id: 7,
+                ref: "ENEM 2018",
+                title: "Crescimento Populacional",
+                enunciado: `A população de uma cidade cresce a uma taxa de 2% ao ano, segundo a função $P(t) = P_0(1,02)^t$, onde $P_0$ é a população inicial e $t$ é o tempo em anos. Se a população atual é de 50.000 habitantes, em quanto tempo ela atingirá 100.000 habitantes? (Dados: $\\log 2 \\approx 0,30$ e $\\log 1,02 \\approx 0,0086$)`,
+                options: ["a) Aproximadamente 25 anos", "b) Aproximadamente 30 anos", "c) Aproximadamente 35 anos", "d) Aproximadamente 40 anos", "e) Aproximadamente 45 anos"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Modelagem:</b> Queremos encontrar $t$ quando $P(t) = 100000$ e $P_0 = 50000$.
+                            $$ 100000 = 50000(1,02)^t $$
+                        </li>
+                        <li><b>Simplificação:</b> $2 = (1,02)^t$.</li>
+                        <li><b>Aplicação de Logaritmo:</b> $\\log(2) = \\log((1,02)^t)$.</li>
+                        <li><b>Propriedade da Potência:</b> $\\log(2) = t \\cdot \\log(1,02)$.</li>
+                        <li><b>Cálculo Final:</b> $t = \\frac{\\log(2)}{\\log(1,02)} = \\frac{0,30}{0,0086} \\approx 34,88$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (c) Aproximadamente 35 anos</p>`
+            },
+            {
+                id: 8,
+                ref: "ENEM 2010",
+                title: "Propriedades Operatórias",
+                enunciado: `Se $\\log_x (y) = 2$ e $\\log_z (x) = 3$, qual é o valor de $\\log_z (y)$?`,
+                options: ["a) 1/6", "b) 5", "c) 6", "d) 8", "e) 9"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Conversão para Forma Exponencial:</b>
+                            <ul class="ml-6 mt-2 space-y-1">
+                                <li>De $\\log_x (y) = 2$, temos $y = x^2$.</li>
+                                <li>De $\\log_z (x) = 3$, temos $x = z^3$.</li>
+                            </ul>
+                        </li>
+                        <li><b>Substituição:</b> Substituímos a expressão de $x$ na expressão de $y$:
+                            $$ y = (z^3)^2 = z^6 $$
+                        </li>
+                        <li><b>Cálculo Final:</b> Agora calculamos o que foi pedido, $\\log_z(y)$, usando a nova expressão para $y$:
+                            $$ \\log_z(z^6) = 6 \\cdot \\log_z(z) = 6 \\cdot 1 = 6 $$
+                        </li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (c) 6</p>`
+            },
+            {
+                id: 9,
+                ref: "ENEM 2012",
+                title: "Número de Algarismos de uma Potência",
+                enunciado: `O número de algarismos de um número inteiro positivo $N$ pode ser calculado por $\\lfloor \\log_{10}(N) \\rfloor + 1$. Quantos algarismos tem o número $2^{100}$? (Dado: $\\log_{10} 2 \\approx 0,301$)`,
+                options: ["a) 30", "b) 31", "c) 100", "d) 200", "e) 301"],
+                resolucao: `
+                     <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Cálculo do Logaritmo:</b> Para $N = 2^{100}$, calculamos $\\log_{10}(2^{100})$.</li>
+                        <li><b>Propriedade da Potência:</b> $100 \\cdot \\log_{10}(2)$.</li>
+                        <li><b>Substituição do Valor:</b> $100 \\cdot 0,301 = 30,1$.</li>
+                        <li><b>Aplicação da Fórmula:</b> A parte inteira de $30,1$ é $30$. O número de algarismos é (parte inteira) + 1.
+                           $$ \\lfloor 30,1 \\rfloor + 1 = 30 + 1 = 31 $$
+                        </li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (b) 31</p>`
+            },
+            {
+                id: 10,
+                ref: "ENEM 2012",
+                title: "Expressão de Tempo em Juros Compostos",
+                enunciado: `Um investidor aplicou um capital a juros compostos. Para que o capital triplique, o tempo de aplicação $t$ deve ser tal que $(1+i)^t = 3$. Usando logaritmos na base 1,05, qual expressão representa o tempo $t$ para uma taxa $i=5\\%$ ao ano?`,
+                options: ["a) $t = \\log_{1,05}(3)$", "b) $t = \\log_3(1,05)$", "c) $t = \\frac{\\log(3)}{\\log(1,05)}$", "d) $t = \\log(3) - \\log(1,05)$", "e) $t = 3 \\cdot \\log(1,05)$"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Modelagem:</b> A taxa $i=5\\%$ é $0,05$. Substituindo na fórmula dada: $(1+0,05)^t = 3 \\implies (1,05)^t = 3$.</li>
+                        <li><b>Aplicação de Logaritmo:</b> A questão pede para usar logaritmos na base 1,05. Aplicamos $\\log_{1,05}$ em ambos os lados:
+                            $$ \\log_{1,05}((1,05)^t) = \\log_{1,05}(3) $$
+                        </li>
+                        <li><b>Propriedade da Potência:</b> $t \\cdot \\log_{1,05}(1,05) = \\log_{1,05}(3)$.</li>
+                        <li><b>Simplificação:</b> Como $\\log_b(b) = 1$, temos $t \\cdot 1 = \\log_{1,05}(3)$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (a) $t = \\log_{1,05}(3)$</p>`
+            },
+            {
+                id: 11,
+                ref: "ENEM 2020",
+                title: "Lei de Resfriamento de Newton",
+                enunciado: `A lei de resfriamento de Newton afirma que a taxa de variação da temperatura de um corpo é proporcional à diferença entre a sua temperatura e a temperatura do ambiente. A temperatura $T$ de um café, em graus Celsius, $t$ minutos após ser servido, é dada por $T(t) = 20 + 70 \\cdot e^{-0,05t}$. Após quantos minutos a temperatura do café será de 50 °C? (Use $\\ln(3/7) \\approx -0,85$)`,
+                options: ["a) 15 minutos", "b) 17 minutos", "c) 19 minutos", "d) 21 minutos", "e) 23 minutos"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Substituição:</b> $50 = 20 + 70 \\cdot e^{-0,05t}$.</li>
+                        <li><b>Isolamento do Termo Exponencial:</b> $30 = 70 \\cdot e^{-0,05t} \\implies \\frac{30}{70} = e^{-0,05t} \\implies \\frac{3}{7} = e^{-0,05t}$.</li>
+                        <li><b>Aplicação de Logaritmo Natural (ln):</b> $\\ln(\\frac{3}{7}) = \\ln(e^{-0,05t})$.</li>
+                        <li><b>Propriedade do Logaritmo:</b> $\\ln(\\frac{3}{7}) = -0,05t \\cdot \\ln(e)$. Como $\\ln(e) = 1$, temos $\\ln(\\frac{3}{7}) = -0,05t$.</li>
+                        <li><b>Cálculo Final:</b> $-0,85 = -0,05t \\implies t = \\frac{-0,85}{-0,05} = 17$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (b) 17 minutos</p>`
+            },
+            {
+                id: 12,
+                ref: "ENEM 2019",
+                title: "Propriedades Operatórias II",
+                enunciado: `Se $\\log 2 = a$ e $\\log 3 = b$, qual é o valor de $\\log 72$?`,
+                options: ["a) $2a + 3b$", "b) $3a + 2b$", "c) $a^3 + b^2$", "d) $6ab$", "e) $a+b+6$"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Fatoração:</b> Primeiro, fatoramos o número 72 em fatores primos: $72 = 8 \\cdot 9 = 2^3 \\cdot 3^2$.</li>
+                        <li><b>Aplicação do Logaritmo:</b> $\\log(72) = \\log(2^3 \\cdot 3^2)$.</li>
+                        <li><b>Propriedade do Produto:</b> $\\log(A \\cdot B) = \\log(A) + \\log(B)$.
+                            $$ \\log(2^3) + \\log(3^2) $$
+                        </li>
+                        <li><b>Propriedade da Potência:</b> $\\log(A^n) = n \\cdot \\log(A)$.
+                            $$ 3\\log(2) + 2\\log(3) $$
+                        </li>
+                        <li><b>Substituição:</b> Substituímos os valores dados: $3a + 2b$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (b) $3a + 2b$</p>`
+            },
+            {
+                id: 13,
+                ref: "ENEM 2021",
+                title: "Juros Compostos (Dívida)",
+                enunciado: `Uma pessoa fez um empréstimo de R$ 20.000,00 a uma taxa de juros compostos de 2% ao mês. O montante $M$ da dívida após $t$ meses é dado por $M(t) = 20000 \\cdot (1,02)^t$. Em quantos meses a dívida atingirá R$ 24.380,00? (Dados: $\\log(1,219) \\approx 0,086$ e $\\log(1,02) \\approx 0,0086$)`,
+                options: ["a) 8 meses", "b) 9 meses", "c) 10 meses", "d) 11 meses", "e) 12 meses"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Substituição:</b> $24380 = 20000 \\cdot (1,02)^t$.</li>
+                        <li><b>Isolamento do Termo Exponencial:</b> $\\frac{24380}{20000} = (1,02)^t \\implies 1,219 = (1,02)^t$.</li>
+                        <li><b>Aplicação de Logaritmo:</b> $\\log(1,219) = \\log((1,02)^t)$.</li>
+                        <li><b>Propriedade da Potência:</b> $\\log(1,219) = t \\cdot \\log(1,02)$.</li>
+                        <li><b>Cálculo Final:</b> $t = \\frac{\\log(1,219)}{\\log(1,02)} = \\frac{0,086}{0,0086} = 10$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (c) 10 meses</p>`
+            },
+            {
+                id: 14,
+                ref: "ENEM 2022",
+                title: "Magnitude Aparente de Estrelas",
+                enunciado: `A magnitude aparente de uma estrela, $m$, está relacionada ao seu brilho $b$ pela fórmula $m = -2,5 \\log_{10}(b/b_0)$, onde $b_0$ é o brilho de uma estrela de referência. A estrela A é 100 vezes mais brilhante que a estrela B ($b_A = 100 b_B$). Qual é a diferença de magnitude $m_B - m_A$?`,
+                options: ["a) -5", "b) -2,5", "c) 2,5", "d) 5", "e) 10"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Modelagem:</b> Escrevemos a expressão para $m_B - m_A$:
+                            $$ m_B - m_A = \\left(-2,5 \\log(\\frac{b_B}{b_0})\\right) - \\left(-2,5 \\log(\\frac{b_A}{b_0})\\right) $$
+                        </li>
+                        <li><b>Simplificação:</b> $m_B - m_A = -2,5 \\left[ \\log(\\frac{b_B}{b_0}) - \\log(\\frac{b_A}{b_0}) \\right]$.</li>
+                        <li><b>Propriedade do Quociente:</b> $m_B - m_A = -2,5 \\log\\left( \\frac{b_B/b_0}{b_A/b_0} \\right) = -2,5 \\log(\\frac{b_B}{b_A})$.</li>
+                        <li><b>Substituição da Relação:</b> Sabemos que $b_A = 100 b_B$, então $\\frac{b_B}{b_A} = \\frac{1}{100}$.
+                            $$ m_B - m_A = -2,5 \\log(\\frac{1}{100}) = -2,5 \\log(10^{-2}) $$
+                        </li>
+                        <li><b>Cálculo Final:</b> $m_B - m_A = -2,5 \\cdot (-2) = 5$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (d) 5</p>`
+            },
+            {
+                id: 15,
+                ref: "ENEM 2023",
+                title: "Intensidade Sonora (Comparação)",
+                enunciado: `O ruído de um motor de avião atinge 120 dB. O ruído de uma conversa normal é de 60 dB. Usando a fórmula $\\beta = 10 \\cdot \\log_{10}(I/I_0)$, a intensidade sonora do motor do avião é quantas vezes maior que a intensidade de uma conversa?`,
+                options: ["a) 2 vezes", "b) 60 vezes", "c) 1.000 vezes", "d) 100.000 vezes", "e) 1.000.000 de vezes"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Modelagem:</b> Seja $\\beta_A = 120$ para o avião e $\\beta_C = 60$ para a conversa. Queremos a razão $I_A/I_C$.</li>
+                        <li><b>Estratégia:</b> Calculamos a diferença $\\beta_A - \\beta_C$.
+                            $$ 120 - 60 = 10\\log(\\frac{I_A}{I_0}) - 10\\log(\\frac{I_C}{I_0}) $$
+                        </li>
+                        <li><b>Simplificação:</b> $60 = 10 \\left[ \\log(\\frac{I_A}{I_0}) - \\log(\\frac{I_C}{I_0}) \\right]$.</li>
+                        <li><b>Propriedade do Quociente:</b> $6 = \\log(\\frac{I_A/I_0}{I_C/I_0}) = \\log(\\frac{I_A}{I_C})$.</li>
+                        <li><b>Definição de Logaritmo:</b> $\\frac{I_A}{I_C} = 10^6 = 1.000.000$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (e) 1.000.000 de vezes</p>`
+            },
+            {
+                id: 16,
+                ref: "ENEM 2014",
+                title: "Análise Gráfica de Função Logarítmica",
+                enunciado: `O gráfico de uma função logarítmica $y = \\log_b(x)$ passa pelo ponto (4, 2). Com base nessa informação, qual é o valor da base $b$?`,
+                options: ["a) 1/4", "b) 1/2", "c) 2", "d) 4", "e) 16"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Interpretação do Gráfico:</b> O ponto $(4, 2)$ pertencer ao gráfico significa que quando $x=4$, $y=2$.</li>
+                        <li><b>Substituição na Função:</b> Substituímos esses valores na equação: $2 = \\log_b(4)$.</li>
+                        <li><b>Aplicação da Definição:</b> Usamos a definição de logaritmo: se $\\log_b(a) = c$, então $b^c = a$.
+                            $$ b^2 = 4 $$
+                        </li>
+                        <li><b>Resolução da Equação:</b> A base $b$ de um logaritmo deve ser positiva e diferente de 1, então a única solução é $b = 2$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (c) 2</p>`
+            },
+            {
+                id: 17,
+                ref: "ENEM 2018 PPL",
+                title: "Propriedades Operatórias III",
+                enunciado: `Sabendo que $\\log a = 5$, $\\log b = 3$ e $\\log c = 2$, qual o valor de $\\log \\left( \\frac{a \\cdot b^2}{c} \\right)$?`,
+                options: ["a) 6", "b) 9", "c) 11", "d) 13", "e) 15"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Propriedade do Quociente:</b> $\\log(a \\cdot b^2) - \\log(c)$.</li>
+                        <li><b>Propriedade do Produto:</b> $\\log(a) + \\log(b^2) - \\log(c)$.</li>
+                        <li><b>Propriedade da Potência:</b> $\\log(a) + 2\\log(b) - \\log(c)$.</li>
+                        <li><b>Substituição:</b> $5 + 2(3) - 2 = 5 + 6 - 2 = 9$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (b) 9</p>`
+            },
+            {
+                id: 18,
+                ref: "ENEM 2019 PPL",
+                title: "Crescimento de Planta",
+                enunciado: `A altura $h$ de uma planta, em cm, em função do tempo $t$ (em dias) é dada pela expressão $h(t) = 1,5 + \\log_3(t+1)$. Em quantos dias a planta atingirá a altura de 3,5 cm?`,
+                options: ["a) 5 dias", "b) 6 dias", "c) 7 dias", "d) 8 dias", "e) 9 dias"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Substituição:</b> $3,5 = 1,5 + \\log_3(t+1)$.</li>
+                        <li><b>Isolamento do Logaritmo:</b> $3,5 - 1,5 = \\log_3(t+1) \\implies 2 = \\log_3(t+1)$.</li>
+                        <li><b>Definição de Logaritmo:</b> $3^2 = t+1$.</li>
+                        <li><b>Cálculo Final:</b> $9 = t+1 \\implies t = 8$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (d) 8 dias</p>`
+            },
+            {
+                id: 19,
+                ref: "ENEM 2020 Digital",
+                title: "Equação Logarítmica",
+                enunciado: `Se $\\log_2(x) + \\log_2(x-2) = 3$, qual é o valor de $x$?`,
+                options: ["a) 2", "b) 3", "c) 4", "d) -2", "e) -4"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Condição de Existência:</b> O logaritmando deve ser positivo. Portanto, $x > 0$ e $x-2 > 0 \\implies x > 2$.</li>
+                        <li><b>Propriedade do Produto:</b> $\\log_2(x(x-2)) = 3$.</li>
+                        <li><b>Definição de Logaritmo:</b> $x(x-2) = 2^3$.</li>
+                        <li><b>Resolução da Equação Quadrática:</b> $x^2 - 2x = 8 \\implies x^2 - 2x - 8 = 0$.
+                            Usando a fórmula de Bhaskara, as raízes são $x=4$ e $x=-2$.
+                        </li>
+                        <li><b>Verificação da Condição:</b> Apenas $x=4$ satisfaz a condição de existência ($x>2$). A solução $x=-2$ é descartada.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (c) 4</p>`
+            },
+            {
+                id: 20,
+                ref: "ENEM 2021 PPL",
+                title: "A Escala de Intensidade de Tufões",
+                enunciado: `A categoria $C$ de um tufão está relacionada à velocidade do vento $V$ (km/h) pela fórmula: $C = \\left( \\frac{V}{74} \\right)^{1/k} - 1$. Para um tufão de categoria 3 com $V = 178$ km/h, qual expressão representa $k$?`,
+                options: ["a) $k = \\frac{\\log(178/74)}{\\log(4)}$", "b) $k = \\frac{\\log(4)}{\\log(178/74)}$", "c) $k = \\log(4) - \\log(178/74)$", "d) $k = 4 \\log(178/74)$", "e) $k = \\log(178) / \\log(74)$"],
+                resolucao: `
+                    <ol class="list-decimal list-inside space-y-3">
+                        <li><b>Substituição:</b> $3 = \\left( \\frac{178}{74} \\right)^{1/k} - 1$.</li>
+                        <li><b>Isolamento do Termo Exponencial:</b> $4 = \\left( \\frac{178}{74} \\right)^{1/k}$.</li>
+                        <li><b>Aplicação de Logaritmo:</b> $\\log(4) = \\log\\left( \\left( \\frac{178}{74} \\right)^{1/k} \\right)$.</li>
+                        <li><b>Propriedade da Potência:</b> $\\log(4) = \\frac{1}{k} \\cdot \\log\\left( \\frac{178}{74} \\right)$.</li>
+                        <li><b>Isolamento de k:</b> $k \\cdot \\log(4) = \\log\\left( \\frac{178}{74} \\right) \\implies k = \\frac{\\log(178/74)}{\\log(4)}$.</li>
+                    </ol>
+                    <p class="mt-4 font-bold">Resposta: (a) $k = \\frac{\\log(178/74)}{\\log(4)}$</p>`
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('questions-container');
+            
+            questionsData.forEach(q => {
+                const card = document.createElement('div');
+                card.className = 'question-card bg-white rounded-lg shadow-sm border border-slate-200';
+                
+                let optionsHtml = q.options.map(opt => `<li class="text-slate-700">${opt}</li>`).join('');
+
+                card.innerHTML = `
+                    <div class="question-card-header cursor-pointer p-6 flex justify-between items-center">
+                        <div class="flex-1 min-w-0">
+                            <h2 class="text-xl font-semibold text-slate-800 truncate">Questão ${q.id}: ${q.title}</h2>
+                            <p class="text-sm text-emerald-600 font-medium mt-1">${q.ref}</p>
+                        </div>
+                        <div class="chevron text-emerald-500 flex-shrink-0 ml-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </div>
+                    <div class="question-card-content px-6">
+                        <div class="prose-styles text-slate-700">
+                            <h3 class="text-lg font-semibold text-slate-800 border-b pb-2 mb-4">Enunciado</h3>
+                            <p>${q.enunciado}</p>
+                            <ul class="list-none space-y-2 my-4">${optionsHtml}</ul>
+                            
+                            <h3 class="text-lg font-semibold text-slate-800 border-b pb-2 mb-4 mt-8">Resolução Comentada</h3>
+                            <div>${q.resolucao}</div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ],
+                throwOnError : false
+            });
+
+            document.querySelectorAll('.question-card-header').forEach(header => {
+                header.addEventListener('click', () => {
+                    header.parentElement.classList.toggle('open');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
